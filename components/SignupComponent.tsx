@@ -40,7 +40,6 @@ const SignUpComponent = () => {
       });
       router.push("/");
     } catch (error) {
-      console.log("Error loggin in", error);
       setErrorMsg("invalid email or password");
       toast("Error creating user", {
         description: "Something went wrong try again later",

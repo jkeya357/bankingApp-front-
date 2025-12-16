@@ -33,7 +33,6 @@ const DeleteModal = ({ openModal, onClose, accountType }: DeleteType) => {
       onClose(false);
       router.push("/home");
     } catch (error: any) {
-      console.error("Error deleting the accout");
       toast("Error deleting the account", {
         description: `${error?.data?.message}` || "Something went wrong",
         duration: 5000,

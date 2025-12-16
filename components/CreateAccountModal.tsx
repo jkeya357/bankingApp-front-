@@ -37,7 +37,6 @@ const CreateAccountModal = ({ open, onClose }: createAccountType) => {
       onClose?.(false);
       setSelectedType("");
     } catch (error) {
-      console.error("Failed to create account: ", error);
       toast("There was a problem creating you account ❌", {
         description: "Something went wrong try again later",
         duration: 5000,

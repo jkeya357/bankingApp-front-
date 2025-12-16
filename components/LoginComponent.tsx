@@ -28,9 +28,8 @@ const LoginComponent = () => {
       const result = await login({ email, password }).unwrap();
       dispatch(setCredentials({ token: result.token, userId: result.userId }));
       localStorage.setItem("accessToken", result.token);
-      router.push("/home");
+      router.replace("/home");
     } catch (error) {
-      console.log("Error loggin in", error);
       setErrorMsg("invalid email or password");
     }
   };

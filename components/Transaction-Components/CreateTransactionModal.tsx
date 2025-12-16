@@ -57,7 +57,6 @@ const CreateTransactionModal = ({
 
       onClose(false);
     } catch (error) {
-      console.error("Transaction Error:", error);
       toast("Transaction failed", {
         description: "Something went wrong. Try again later.",
         duration: 5000,
