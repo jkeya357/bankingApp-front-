@@ -1,7 +1,8 @@
 "use client";
 import { useGetUsersQuery, selectUserById } from "@/store/user/userApiSlice";
-import { getCurrentUser } from "@/store/auth/authSlice";
-import { useSelector } from "react-redux";
+import { getCurrentUser, logout } from "@/store/auth/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 import {
   Dialog,
   DialogContent,
@@ -9,6 +10,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { RootState } from "@/store/store";
+import { LogOut } from "lucide-react";
+import { Button } from "./ui/button";
 
 interface HeaderType {
   open: boolean;
@@ -17,7 +20,17 @@ interface HeaderType {
 
 const HeaderModel = ({ open, onClose }: HeaderType) => {
   const { isLoading, isError } = useGetUsersQuery();
+  const dispatch = useDispatch();
   const user = useSelector(getCurrentUser)!;
+
+  const router = useRouter();
+
+  const handlLogout = () => {
+    const loggingOut = dispatch(logout());
+    if (loggingOut) {
+      router.replace("/");
+    }
+  };
 
   const userData = useSelector((state: RootState) =>
     selectUserById(state, user)
@@ -70,6 +83,10 @@ const HeaderModel = ({ open, onClose }: HeaderType) => {
           </label>
 
           <p>Created At: {new Date(userData.createdAt).toLocaleString()}</p>
+
+          <Button className="bg-red-700 text-white" onClick={handlLogout}>
+            Logout
+          </Button>
         </div>
       </DialogContent>
     </Dialog>
