@@ -44,7 +44,7 @@ export default function WelcomePage() {
         <Card className="bg-white/5 border-white/10 backdrop-blur-xl shadow-2xl rounded-2xl">
           <CardContent className="p-8 space-y-6">
             <h2 className="text-2xl font-semibold text-gray-200">
-              Why Nzimbu Book?
+              Why Nzimbu Bank?
             </h2>
 
             <ul className="space-y-4 text-gray-300 text-sm list-disc marker:text-gray-200">
