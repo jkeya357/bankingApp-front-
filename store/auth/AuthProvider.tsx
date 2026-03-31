@@ -19,6 +19,7 @@ export default function AuthProvider({
     const init = async () => {
       try {
         const res = await refresh().unwrap();
+        console.log("TOKEN: ", res);
 
         dispatch(
           setCredentials({

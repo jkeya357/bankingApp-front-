@@ -1,8 +1,8 @@
 "use client";
 
 import { useGetUsersQuery, selectAllUsers } from "@/store/user/userApiSlice";
-import { getCurrentUser } from "@/store/auth/authSlice";
-import { useSelector } from "react-redux";
+import { getCurrentUser, logout } from "@/store/auth/authSlice";
+import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -16,13 +16,22 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { Button } from "@/components/ui/button";
+import { redirect } from "next/navigation";
 
 const Header = () => {
   const loggedInUser = useSelector(getCurrentUser);
   useGetUsersQuery();
 
+  const dispatch = useDispatch();
+
   const users = useSelector(selectAllUsers);
   const currentUser = users?.find((user: any) => user.userId === loggedInUser);
+
+  const handleLongout = (e: any) => {
+    e.preventDefault();
+    redirect("/");
+    dispatch(logout());
+  };
 
   return (
     <header className="w-full border-b border-white/10 bg-black/60 backdrop-blur-xl sticky top-0 z-50">

@@ -7,6 +7,13 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { accountType } from "@/types/Account";
 import { useRouter } from "next/navigation";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface createAccountType {
   open: boolean;
@@ -58,17 +65,23 @@ const CreateAccountModal = ({ open, onClose }: createAccountType) => {
         <div className="flex flex-col gap-2">
           <label className="font-medium text-gray-700">Account Type</label>
 
-          <select
+          <Select
             value={selectedType}
-            onChange={(e) => setSelectedType(e.target.value as accountType)}
-            className="border rounded-lg px-3 py-2 focus:ring focus:ring-blue-200"
+            onValueChange={(value) => setSelectedType(value as accountType)}
           >
-            <option value="">Select account type...</option>
-            <option value="SAVING">Savings Account</option>
-            <option value="CHEQUE">Cheque Account</option>
-            <option value="BUSINESS">Business Account</option>
-            <option value="FIXED_DEPOSIT">Fixed Deposit Account</option>
-          </select>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select account type..." />
+            </SelectTrigger>
+
+            <SelectContent>
+              <SelectItem value="SAVING">Savings Account</SelectItem>
+              <SelectItem value="CHEQUE">Cheque Account</SelectItem>
+              <SelectItem value="BUSINESS">Business Account</SelectItem>
+              <SelectItem value="FIXED_DEPOSIT">
+                Fixed Deposit Account
+              </SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         {/* SUCCESS MESSAGE */}

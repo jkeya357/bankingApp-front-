@@ -37,7 +37,7 @@ const SignUpComponent = () => {
         userName,
       }).unwrap();
 
-      toast(`New user ${result.userName} created successfully ✅`, {
+      toast(`New user created successfully ✅`, {
         description:
           "You can now login to your account to begin your journey with us",
         duration: 5000,
