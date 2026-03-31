@@ -29,8 +29,8 @@ const Header = () => {
 
   const handleLongout = (e: any) => {
     e.preventDefault();
-    redirect("/");
     dispatch(logout());
+    redirect("/");
   };
 
   return (
@@ -96,7 +96,10 @@ const Header = () => {
                 <Link href="/dashboard">Dashboard</Link>
               </DropdownMenuItem>
 
-              <DropdownMenuItem className="text-red-400 focus:text-red-300">
+              <DropdownMenuItem
+                className="text-red-400 focus:text-red-300"
+                onClick={handleLongout}
+              >
                 Logout
               </DropdownMenuItem>
             </DropdownMenuContent>

@@ -1,6 +1,8 @@
 "use client";
 
 import { useSignUpMutation } from "@/store/auth/authApiSlice";
+import { setCredentials, getAccessToken } from "@/store/auth/authSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -15,6 +17,7 @@ import Link from "next/link";
 const SignUpComponent = () => {
   const router = useRouter();
   const [signUp, { isLoading }] = useSignUpMutation();
+  const dispatch = useDispatch();
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -43,7 +46,9 @@ const SignUpComponent = () => {
         duration: 5000,
       });
 
-      router.push("/auth/login");
+      dispatch(setCredentials({ token: result.token, userId: result.userId }));
+
+      router.push("/home");
     } catch (error) {
       setErrorMsg("Invalid email or password");
       toast("Error creating user", {
