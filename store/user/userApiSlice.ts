@@ -5,7 +5,7 @@ import { RootState } from "@/store/store";
 import { getUser, createUser, CreateUserRequest, updateUser, updateUserResponse } from "@/types/User";
 
 const usersAdapter = createEntityAdapter<getUser, string>({
-  selectId: (user) => user.id
+  selectId: (user) => user.userId
 })
 const initialState = usersAdapter.getInitialState({})
 
@@ -56,7 +56,7 @@ export const selectUserResult = usersApiSlice.endpoints.getUsers.select()
 
 const selectUserData = createSelector(
   selectUserResult,
-  userResult => userResult.data
+  (userResult) => userResult.data
 )
 
 export const {

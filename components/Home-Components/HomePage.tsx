@@ -1,56 +1,61 @@
 "use client";
+
 import { useSelector } from "react-redux";
-import { useGetUsersQuery } from "@/store/user/userApiSlice";
-import { getCurrentUser } from "@/store/auth/authSlice";
-import { selectUserById, selectAllUsers } from "@/store/user/userApiSlice";
-import { useEffect } from "react";
+import { useGetUsersQuery, selectUserById } from "@/store/user/userApiSlice";
+import { getAccessToken, getCurrentUser } from "@/store/auth/authSlice";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { redirect } from "next/navigation";
-import { useRouter } from "next/navigation";
+import { RootState } from "@/store/store";
 
 import UserInfo from "@/components/Home-Components/UserInfo";
 import AccountSection from "@/components/Account-Components/AccountSection";
-import { RootState } from "@/store/store";
 import defaultImage from "@/app/user.png";
 
 const HomePage = () => {
-  const { data: userData } = useGetUsersQuery();
+  useGetUsersQuery(undefined, {});
 
   const loggedInUser = useSelector(getCurrentUser)!;
-  const router = useRouter();
+
+  const accessToken = useSelector(getAccessToken);
 
   const user = useSelector((state: RootState) =>
-    selectUserById(state, loggedInUser)
+    selectUserById(state, loggedInUser),
   );
 
   useEffect(() => {
-    if (!user) {
+    if (!accessToken) {
       redirect("/auth/login");
     }
-  }, [user, router]);
-
-  if (!user) return null;
+  }, [accessToken]);
 
   return (
-    <div className="w-full min-h-screen bg-gray-50 flex flex-col items-center p-10">
+    <div className="relative min-h-screen w-full bg-[#0a0a0a] p-10 flex flex-col items-center">
+      {/* Background glow */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute top-[-150px] left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/20 blur-[150px] rounded-full" />
+      </div>
+
       {/* User Card */}
-      <div className="bg-white w-full max-w-2xl p-8 rounded-2xl shadow-lg border border-gray-200">
-        <div className="flex items-center gap-6">
+      <div className="w-full max-w-3xl bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl p-8 space-y-6">
+        <div className="flex flex-col md:flex-row md:items-center gap-6">
           {/* Profile Picture */}
           <Image
-            src={user.profilePicture || defaultImage}
+            src={user?.profilePicture || defaultImage}
             alt="profile picture"
-            width={90}
-            height={90}
-            className="rounded-full border shadow-sm"
+            width={100}
+            height={100}
+            className="rounded-full border border-white/20 shadow-sm"
           />
 
           {/* User Info */}
-          <UserInfo user={user} />
+          <div className="flex-1">
+            <UserInfo user={user} />
+          </div>
         </div>
 
         {/* Accounts Section */}
-        <div className="mt-8">
+        <div className="mt-6">
           <AccountSection />
         </div>
       </div>

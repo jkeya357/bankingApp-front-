@@ -25,35 +25,42 @@ const Transactions = ({ transactions }: transactionType) => {
 
   return (
     <div>
-      <Card className="border shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-xl font-semibold text-gray-800">
+      <Card className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl shadow-2xl">
+        <CardHeader className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <CardTitle className="text-xl font-semibold text-white">
             Transactions
           </CardTitle>
-          <Button
-            onClick={() => {
-              setOpenCreateModal(true);
-              setTransactionTypeModal("WITHDRAWAL");
-            }}
-          >
-            Withdraw
-          </Button>
-          <Button
-            onClick={() => {
-              setOpenCreateModal(true);
-              setTransactionTypeModal("DEPOSIT");
-            }}
-          >
-            Deposit
-          </Button>
-          <Button
-            onClick={() => {
-              setOpenCreateModal(true);
-              setTransactionTypeModal("TRANSFER");
-            }}
-          >
-            Transfer
-          </Button>
+
+          {/* ACTION BUTTONS */}
+          <div className="flex gap-2 w-full md:w-auto">
+            <Button
+              className="bg-green-600 hover:bg-green-700 text-white flex-1"
+              onClick={() => {
+                setOpenCreateModal(true);
+                setTransactionTypeModal("DEPOSIT");
+              }}
+            >
+              Deposit
+            </Button>
+            <Button
+              className="bg-yellow-600 hover:bg-yellow-700 text-white flex-1"
+              onClick={() => {
+                setOpenCreateModal(true);
+                setTransactionTypeModal("WITHDRAWAL");
+              }}
+            >
+              Withdraw
+            </Button>
+            <Button
+              className="bg-blue-600 hover:bg-blue-700 text-white flex-1"
+              onClick={() => {
+                setOpenCreateModal(true);
+                setTransactionTypeModal("TRANSFER");
+              }}
+            >
+              Transfer
+            </Button>
+          </div>
         </CardHeader>
 
         {openCreateModal && transactionTypeModal && (
@@ -66,26 +73,24 @@ const Transactions = ({ transactions }: transactionType) => {
 
         <CardContent>
           {transactions.length === 0 ? (
-            <p className="text-gray-600 text-sm">No transactions available.</p>
+            <p className="text-gray-400 text-sm">No transactions available.</p>
           ) : (
             <div className="space-y-4">
               {transactions.map((tx) => (
                 <div
                   key={tx.transactionId}
                   onClick={() => handleOpen(tx)}
-                  className="border-b pb-3 flex justify-between items-center cursor-pointer"
+                  className="border-b border-white/10 pb-3 flex justify-between items-center cursor-pointer"
                 >
                   <div>
-                    <p className="font-medium text-gray-800">
+                    <p className="font-medium text-white">
                       {tx.transactionType}
                     </p>
                   </div>
 
                   <div>
-                    <p className="font-medium text-gray-800">
-                      {tx.description}
-                    </p>
-                    <p className="text-xs text-gray-500">
+                    <p className="font-medium text-white">{tx.description}</p>
+                    <p className="text-xs text-gray-400">
                       {new Date(tx.transactionDate).toLocaleString()}
                     </p>
                   </div>
@@ -93,8 +98,8 @@ const Transactions = ({ transactions }: transactionType) => {
                   <p
                     className={`font-semibold ${
                       tx.transactionType === "DEPOSIT"
-                        ? "text-green-700"
-                        : "text-red-600"
+                        ? "text-green-500"
+                        : "text-red-500"
                     }`}
                   >
                     {tx.transactionType === "DEPOSIT" ? "+" : "-"} R{" "}

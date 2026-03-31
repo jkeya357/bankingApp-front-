@@ -1,80 +1,98 @@
 "use client";
+
 import { useGetUsersQuery, selectAllUsers } from "@/store/user/userApiSlice";
 import { getCurrentUser } from "@/store/auth/authSlice";
 import { useSelector } from "react-redux";
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import HeaderModel from "./HeaderModel";
-import defaultUserImg from "@/app/user.png";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+import { Button } from "@/components/ui/button";
 
 const Header = () => {
   const loggedInUser = useSelector(getCurrentUser);
-
   useGetUsersQuery();
 
-  const user = useSelector(selectAllUsers);
-  const [open, setOpen] = useState(false);
-
-  const currentUser = user?.find((user: any) => user.id === loggedInUser);
+  const users = useSelector(selectAllUsers);
+  const currentUser = users?.find((user: any) => user.userId === loggedInUser);
 
   return (
-    <header className="w-full bg-white shadow-sm">
+    <header className="w-full border-b border-white/10 bg-black/60 backdrop-blur-xl sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        {/* Logo */}
-
+        {/* LOGO */}
         <Link
           href={currentUser ? "/home" : "/"}
-          className="text-2xl font-bold text-blue-600"
+          className="text-xl font-semibold tracking-tight text-white"
         >
-          MyBank
+          <span className="text-gray-400">NZIMBU</span> BANKING
         </Link>
 
-        {/* Not Logged In */}
+        {/* NOT LOGGED IN */}
         {!currentUser && (
-          <div className="flex items-center gap-4">
-            <Link
-              href="/auth/login"
-              className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition"
-            >
-              Login
+          <div className="flex items-center gap-3">
+            <Link href="/auth/login">
+              <Button
+                variant="ghost"
+                className="text-gray-300 bg-gray-500 hover:text-white hover:bg-white/10"
+              >
+                Login
+              </Button>
             </Link>
-            <Link
-              href="/auth/signup"
-              className="px-4 py-2 rounded-lg border border-blue-600 text-blue-600 hover:bg-blue-50 transition"
-            >
-              Register
+
+            <Link href="/auth/signup">
+              <Button className="bg-blue-700 hover:bg-primary/90">
+                Get Started
+              </Button>
             </Link>
           </div>
         )}
 
-        {/* Logged In User */}
+        {/* LOGGED IN */}
         {currentUser && (
-          <div
-            className="flex items-center gap-3 cursor-pointer"
-            onClick={() => setOpen(true)}
-          >
-            {/* Profile image */}
-            <Image
-              src={currentUser.profilePicture ?? defaultUserImg}
-              alt=""
-              width={40}
-              height={40}
-              className="rounded-full border"
-            />
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <div className="flex items-center gap-3 cursor-pointer hover:bg-white/5 px-3 py-2 rounded-xl transition">
+                <Avatar className="h-9 w-9">
+                  <AvatarImage src={currentUser.profilePicture} />
+                  <AvatarFallback>
+                    {currentUser.userName?.charAt(0)}
+                  </AvatarFallback>
+                </Avatar>
 
-            {/* User Info */}
-            <div className="flex flex-col">
-              <span className="font-semibold text-gray-900">
-                {currentUser.userName}
-              </span>
-              <span className="text-sm text-gray-500">
-                {currentUser.lastName}
-              </span>
-            </div>
-          </div>
+                <div className="hidden sm:flex flex-col text-left">
+                  <span className="text-sm font-medium text-white">
+                    {currentUser.userName}
+                  </span>
+                  <span className="text-xs text-gray-400">
+                    {currentUser.lastName}
+                  </span>
+                </div>
+              </div>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent className="w-48 bg-[#111] border border-white/10 text-white">
+              <DropdownMenuItem asChild>
+                <Link href="/profile">Profile</Link>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem asChild>
+                <Link href="/dashboard">Dashboard</Link>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem className="text-red-400 focus:text-red-300">
+                Logout
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         )}
-        <HeaderModel open={open} onClose={() => setOpen(false)} />
       </div>
     </header>
   );

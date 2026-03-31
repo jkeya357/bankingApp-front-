@@ -3,12 +3,15 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { setCredentials, logout } from "../auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: process.env.NEXT_PUBLIC_BACKEND_URL,
+    baseUrl: "http://localhost:4001/api/v1",
+    credentials: "include",
     prepareHeaders: (headers, {getState}) => {
       const accessToken = (getState() as RootState).auth.accessToken
+      console.log("HEADER ACCESSTOKEN: ", accessToken)
       if(accessToken){
         headers.set("Authorization", `Bearer ${accessToken}`)
       }
+      console.log("AUTHORIZATION HEADER: ", headers)
       return headers
     }
   })
@@ -29,8 +32,17 @@ const baseQuery = fetchBaseQuery({
       extraOptions
     );
 
-    if (refreshResult.data) {
-      api.dispatch(setCredentials(refreshResult.data));
+    if (refreshResult?.data) {
+      
+      const state = api.getState() as RootState
+      const user = state.auth.user
+
+      api.dispatch(
+        setCredentials({
+          token: refreshResult.data,
+           userId: user
+        })
+      );
 
       result = await baseQuery(args, api, extraOptions);
     } else {

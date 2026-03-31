@@ -26,14 +26,12 @@ const HeaderModel = ({ open, onClose }: HeaderType) => {
   const router = useRouter();
 
   const handlLogout = () => {
-    const loggingOut = dispatch(logout());
-    if (loggingOut) {
-      router.replace("/");
-    }
+    dispatch(logout());
+    router.push("/");
   };
 
   const userData = useSelector((state: RootState) =>
-    selectUserById(state, user)
+    selectUserById(state, user),
   );
 
   if (!userData) return "";

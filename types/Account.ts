@@ -1,7 +1,7 @@
 import { Transaction } from "./Transactions";
 
 export interface Account{
-  id: string,
+  accountId: string,
   userId: string,
   accountType: accountType
   accountNumber: string;

@@ -22,15 +22,12 @@ const TransactionModal = ({
 
   return (
     <Dialog open={openTransactionModal} onOpenChange={onClose}>
-      <DialogContent>
+      <DialogContent className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl shadow-2xl">
         <DialogHeader>
-          <DialogTitle>Transaction Details</DialogTitle>
+          <DialogTitle className="text-white">Transaction Details</DialogTitle>
         </DialogHeader>
 
-        <div
-          className="space-y-2 text-gray-700"
-          key={transaction.transactionId}
-        >
+        <div className="space-y-2 text-gray-200">
           <p>
             <b>ID:</b> {transaction.transactionId}
           </p>
@@ -38,9 +35,17 @@ const TransactionModal = ({
             <b>Type:</b> {transaction.transactionType}
           </p>
           <p>
-            <b>Amount:</b> R {transaction.amount.toFixed(2)}
+            <b>Amount:</b>{" "}
+            <span
+              className={
+                transaction.transactionType === "DEPOSIT"
+                  ? "text-green-500"
+                  : "text-red-500"
+              }
+            >
+              R {transaction.amount.toFixed(2)}
+            </span>
           </p>
-
           <p>
             <b>Detail:</b> {transaction.description}
           </p>

@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/sonner";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ReduxProvider from "@/store/ReduxProvider";
+import AuthProvider from "@/store/auth/AuthProvider";
 
 const inter = Inter({
   variable: "--font-geist-sans",
@@ -24,12 +25,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable}antialiased`}>
+      <body className={`${inter.variable} antialiased bg-[#0a0a0a] text-white`}>
         <ReduxProvider>
-          <Header />
-          {children}
-          <Toaster />
-          <Footer />
+          <AuthProvider>
+            <div className="flex flex-col min-h-screen">
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </div>
+            <Toaster />
+          </AuthProvider>
         </ReduxProvider>
       </body>
     </html>

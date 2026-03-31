@@ -1,13 +1,13 @@
 import { Account } from "./Account";
 
 export interface getUser {
-  id: string;
+  userId: string;
   userName: string;
   firstName: string;
   lastName: string;
   email: string;
   profilePicture: string;
-  account: Account[];
+  accounts: Account[];
   createdAt: Date;
 }
 

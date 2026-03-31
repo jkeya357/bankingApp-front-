@@ -4,7 +4,7 @@ import { getCurrentUser } from "../auth/authSlice";
 import { Account, DeleteAccountDto, DeleteAccountRequest } from "@/types/Account";
 
 const accountAdapter = createEntityAdapter<Account, string>({
-  selectId: (account) => account.id
+  selectId: (account) => account.accountId
 })
 const initialState = accountAdapter.getInitialState({})
 

@@ -3,7 +3,7 @@ import bankApi from "../api/bankApi";
 import { Transaction } from "@/types/Transactions";
 
 const transactionAdapter = createEntityAdapter<Transaction, string>({
-  selectId: (account) => account.transactionId
+  selectId: (transaction) => transaction.transactionId
 })
 
 const initialState = transactionAdapter.getInitialState()
