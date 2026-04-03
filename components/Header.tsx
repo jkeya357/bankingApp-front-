@@ -4,7 +4,6 @@ import { useGetUsersQuery, selectAllUsers } from "@/store/user/userApiSlice";
 import { getCurrentUser, logout } from "@/store/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
-import { useState } from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 

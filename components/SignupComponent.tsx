@@ -46,6 +46,8 @@ const SignUpComponent = () => {
         duration: 5000,
       });
 
+      console.log("SIGN UP TOKEN: ", result);
+
       dispatch(setCredentials({ token: result.token, userId: result.userId }));
 
       if (result) {
