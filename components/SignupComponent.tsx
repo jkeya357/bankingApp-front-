@@ -48,9 +48,13 @@ const SignUpComponent = () => {
 
       dispatch(setCredentials({ token: result.token, userId: result.userId }));
 
-      router.push("/home");
+      if (result) {
+        router.push("/home");
+      }
     } catch (error) {
-      setErrorMsg("Invalid email or password");
+      setErrorMsg(
+        "Error creating your account... plz try again or contact support",
+      );
       toast("Error creating user", {
         description: "Something went wrong. Try again later.",
         duration: 5000,

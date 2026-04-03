@@ -19,7 +19,6 @@ export default function AuthProvider({
     const init = async () => {
       try {
         const res = await refresh().unwrap();
-        console.log("TOKEN: ", res);
 
         dispatch(
           setCredentials({
@@ -28,7 +27,6 @@ export default function AuthProvider({
           }),
         );
       } catch (err) {
-        console.log("Global refresh failed");
       } finally {
         setIsInitializing(false);
       }
