@@ -15,13 +15,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { Button } from "@/components/ui/button";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+import bankApi from "@/store/api/bankApi";
 
 const Header = () => {
   const loggedInUser = useSelector(getCurrentUser);
   useGetUsersQuery();
 
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const users = useSelector(selectAllUsers);
   const currentUser = users?.find((user: any) => user.userId === loggedInUser);
@@ -29,7 +31,8 @@ const Header = () => {
   const handleLongout = (e: any) => {
     e.preventDefault();
     dispatch(logout());
-    redirect("/");
+    dispatch(bankApi.util.resetApiState());
+    router.push("/");
   };
 
   return (
@@ -96,7 +99,7 @@ const Header = () => {
               </DropdownMenuItem>
 
               <DropdownMenuItem
-                className="text-red-400 focus:text-red-300"
+                className="text-red-400 focus:text-red-300 hover:pointer"
                 onClick={handleLongout}
               >
                 Logout
