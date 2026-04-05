@@ -36,7 +36,7 @@ export default function RootLayout({
             <Toaster
               toastOptions={{
                 className: "bg-gray-900 text-white border border-gray-700",
-                descriptionClassName: "text-gray-200",
+                descriptionClassName: "text-black",
               }}
             />
           </AuthProvider>
